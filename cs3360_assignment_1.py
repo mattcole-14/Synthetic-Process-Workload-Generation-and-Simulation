@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """ 
-CS 3360: Assignment 01
+CS 3360: Computing Systems Fundamentals
 Synthetic Process Workload Generation and Simulation
 Name: Matt Braziel """
 
@@ -167,7 +167,7 @@ def calculate_statistics(processes):
 def calculate_generation_statistics(processes):
     number_of_processes = len(processes)
 
-    # Arrival time of the final generated process, in milliseconds
+    # arrival time (ms)
     final_arrival_time_ms = processes[-1].arrival_time
     final_arrival_time_seconds = final_arrival_time_ms / 1000
 
@@ -195,11 +195,11 @@ def write_markdown_output(
     cpu_segments,
     generation_statistics,
     statistics,
-    filename="programming_assignment_01.md"
+    filename="cs3360_assignment_1.md"
 ):
     with open(filename, "w", encoding="utf-8") as file:
 
-        file.write("# CS 3360: Assignment 01\n\n")
+        file.write("# CS 3360: Computing Systems Fundamentals\n\n")
         file.write("## Synthetic Process Workload Generation and Simulation\n\n")
         file.write("**Name:** Matt Braziel\n\n")
 
@@ -219,7 +219,21 @@ def write_markdown_output(
                 f"| {process.service_time} |\n"
             )
 
-        # Generation stats
+        # CPU trace
+        file.write("\n## CPU Simulation Trace\n\n")
+        file.write("| Time (in ms) | CPU Status | PID |\n")
+        file.write("|---|---|---:|\n")
+
+        for start, end, status, pid in cpu_segments:
+            pid_output = "" if pid is None else pid
+
+            file.write(
+                f"| [{start}, {end}) "
+                f"| {status} "
+                f"| {pid_output} |\n"
+            )
+
+        # generation
         file.write("\n## Generation Statistics\n\n")
         file.write("| Statistics | Results |\n")
         file.write("|---|---:|\n")
@@ -246,20 +260,7 @@ def write_markdown_output(
             f"seconds |\n"
         )
 
-        # CPU trace
-        file.write("\n## CPU Simulation Trace\n\n")
-        file.write("| Time (in ms) | CPU Status | PID |\n")
-        file.write("|---|---|---:|\n")
-
-        for start, end, status, pid in cpu_segments:
-            pid_output = "" if pid is None else pid
-
-            file.write(
-                f"| [{start}, {end}) "
-                f"| {status} "
-                f"| {pid_output} |\n"
-            )
-
+        
         # Simulation stats
         file.write("\n## Simulation Statistics\n\n")
         file.write("| Statistics | Results |\n")
@@ -306,7 +307,18 @@ def main():
 
     generation_statistics = calculate_generation_statistics(processes)
 
+    print("\nTime (in ms) | CPU Status | PID")
 
+    for start, end, status, pid in cpu_segments:
+        pid_output = "" if pid is None else pid
+
+        print(
+            f"[{start:7d}, {end:7d}) | "
+            f"{status:<10} | "
+            f"{pid_output}"
+        )
+
+    # generation table
     print("\nGeneration Statistics")
     print("------------------------------|------------------")
     print(
@@ -326,19 +338,9 @@ def main():
         f"{generation_statistics['average_service_time']:.2f} seconds"
     )
 
-    print("\nTime (in ms) | CPU Status | PID")
-
-    for start, end, status, pid in cpu_segments:
-        pid_output = "" if pid is None else pid
-
-        print(
-            f"[{start:7d}, {end:7d}) | "
-            f"{status:<10} | "
-            f"{pid_output}"
-        )
-
     statistics = calculate_statistics(processes)
 
+    # statistics table 
     print("\nStatistics                    | Results")
     print("------------------------------|------------------")
     print(
@@ -368,10 +370,6 @@ def main():
         generation_statistics,
         statistics
     )
-
-    print("\n.md to programming_assignment_01.md")
-
-
 
 if __name__ == "__main__":
     main()
