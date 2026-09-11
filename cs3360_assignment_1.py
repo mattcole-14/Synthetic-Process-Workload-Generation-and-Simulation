@@ -3,7 +3,32 @@
 """ 
 CS 3360: Computing Systems Fundamentals
 Synthetic Process Workload Generation and Simulation
-Name: Matt Braziel """
+Name: Matt Braziel 
+
+## AI Assistance Disclosure
+
+Tool: Gemini and Copilot(vscode)
+
+Copilot was used to troubleshoot Python and PowerShell errors, 
+review and debug the implementation, and compare the simulation 
+against the provided reference example. Gemini created the
+final PDF versions of the source code and Markdown output. I also
+tested the FIFO implementation against the example and verified that
+ the averages were consistent with the expected arrival
+rate and service time before selecting the final submission.
+
+### Prompt History
+
+The copilot conversation included prompts:
+- testing the `Process` class;
+- implementing the inverse transform formula using a uniform random number;
+- debugging Python interpreter, import, and `deque` errors;
+- reviewing the Python and Markdown files against the assignment instructions
+  and reference solution;
+- reorganizing the output to match the requested format;
+- generating and checking the source-code PDF and Markdown-output PDF.
+
+"""
 
 import random 
 import math
